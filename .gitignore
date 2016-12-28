@@ -1,5 +1,7 @@
+build/
+dist/
+electrum_stratis_server.egg-info/
 *.pyc
 *.so
 *.o
-.gitignore
-electrum.conf
+electrum-stratis.conf

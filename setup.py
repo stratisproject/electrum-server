@@ -1,30 +1,29 @@
 from setuptools import setup
 
 setup(
-    name="electrum-server",
+    name="electrum-stratis-server",
     version="1.0",
-    scripts=['run_electrum_server.py','electrum-server'],
+    scripts=['run_electrum_stratis_server.py','electrum-stratis-server'],
     install_requires=['plyvel','jsonrpclib', 'irc >= 11, <=14.0'],
     package_dir={
-        'electrumserver':'src'
+        'electrumstratisserver':'src'
         },
     py_modules=[
-        'electrumserver.__init__',
-        'electrumserver.utils',
-        'electrumserver.storage',
-        'electrumserver.deserialize',
-        'electrumserver.networks',
-        'electrumserver.blockchain_processor',
-        'electrumserver.server_processor',
-        'electrumserver.processor',
-        'electrumserver.version',
-        'electrumserver.ircthread',
-        'electrumserver.stratum_tcp'
+        'electrumstratisserver.__init__',
+        'electrumstratisserver.utils',
+        'electrumstratisserver.storage',
+        'electrumstratisserver.deserialize',
+        'electrumstratisserver.networks',
+        'electrumstratisserver.blockchain_processor',
+        'electrumstratisserver.server_processor',
+        'electrumstratisserver.processor',
+        'electrumstratisserver.version',
+        'electrumstratisserver.ircthread',
+        'electrumstratisserver.stratum_tcp'
     ],
-    description="Bitcoin Electrum Server",
-    author="Thomas Voegtlin",
-    author_email="thomasv@electrum.org",
+    description="Stratis Electrum Server",
+    author="dev0tion",
     license="MIT Licence",
-    url="https://github.com/spesmilo/electrum-server/",
-    long_description="""Server for the Electrum Lightweight Bitcoin Wallet"""
+    url="https://github.com/dev0tion/electrum-stratis-server/",
+    long_description="""Server for the Electrum Lightweight Stratis Wallet"""
 )

@@ -16,7 +16,7 @@ class SerializationError(Exception):
 
 
 class BCDataStream(object):
-    """Workalike python implementation of Bitcoin's CDataStream class."""
+    """Workalike python implementation of Stratis's CDataStream class."""
     def __init__(self):
         self.input = None
         self.read_cursor = 0
@@ -46,7 +46,7 @@ class BCDataStream(object):
         # 0 to 252 :    1-byte-length followed by bytes (if any)
         # 253 to 65,535 : byte'253' 2-byte-length followed by bytes
         # 65,536 to 4,294,967,295 : byte '254' 4-byte-length followed by bytes
-        # ... and the Bitcoin client is coded to understand:
+        # ... and the Stratis client is coded to understand:
         # greater than 4,294,967,295 : byte '255' 8-byte-length followed by bytes of string
         # ... but I don't think it actually handles any strings that big.
         if self.input is None:
@@ -216,6 +216,17 @@ def parse_TxIn(vds):
     d['prevout_n'] = vds.read_uint32()
     scriptSig = vds.read_bytes(vds.read_compact_size())
     d['sequence'] = vds.read_uint32()
+
+    if scriptSig:
+        pubkeys, signatures, address = get_address_from_input_script(scriptSig)
+    else:
+        pubkeys = []
+        signatures = []
+        address = None
+
+    d['address'] = address
+    d['signatures'] = signatures
+
     return d
 
 
@@ -233,6 +244,7 @@ def parse_Transaction(vds, is_coinbase):
     d = {}
     start = vds.read_cursor
     d['version'] = vds.read_int32()
+    d['nTime'] = vds.read_uint32()
     n_vin = vds.read_compact_size()
     d['inputs'] = []
     for i in xrange(n_vin):
@@ -330,6 +342,49 @@ def match_decoded(decoded, to_match):
 
 
 
+def get_address_from_input_script(bytes):
+    try:
+        decoded = [ x for x in script_GetOp(bytes) ]
+    except:
+        # coinbase transactions raise an exception                                                                                                                 
+        return [], [], None
+
+    # non-generated TxIn transactions push a signature
+    # (seventy-something bytes) and then their public key
+    # (33 or 65 bytes) onto the stack:
+
+    match = [ opcodes.OP_PUSHDATA4, opcodes.OP_PUSHDATA4 ]
+    if match_decoded(decoded, match):
+        return None, None, public_key_to_pubkey_address(decoded[1][1])
+
+    # p2sh transaction, 2 of n
+    match = [ opcodes.OP_0 ]
+    while len(match) < len(decoded):
+        match.append(opcodes.OP_PUSHDATA4)
+
+    if match_decoded(decoded, match):
+
+        redeemScript = decoded[-1][1]
+        num = len(match) - 2
+        signatures = map(lambda x:x[1].encode('hex'), decoded[1:-1])
+        dec2 = [ x for x in script_GetOp(redeemScript) ]
+
+        # 2 of 2
+        match2 = [ opcodes.OP_2, opcodes.OP_PUSHDATA4, opcodes.OP_PUSHDATA4, opcodes.OP_2, opcodes.OP_CHECKMULTISIG ]
+        if match_decoded(dec2, match2):
+            pubkeys = [ dec2[1][1].encode('hex'), dec2[2][1].encode('hex') ]
+            return pubkeys, signatures, hash_160_to_script_address(hash_160(redeemScript))
+
+        # 2 of 3
+        match2 = [ opcodes.OP_2, opcodes.OP_PUSHDATA4, opcodes.OP_PUSHDATA4, opcodes.OP_PUSHDATA4, opcodes.OP_3, opcodes.OP_CHECKMULTISIG ]
+        if match_decoded(dec2, match2):
+            pubkeys = [ dec2[1][1].encode('hex'), dec2[2][1].encode('hex'), dec2[3][1].encode('hex') ]
+            return pubkeys, signatures, hash_160_to_script_address(hash_160(redeemScript))
+
+    return [], [], None
+
+
+
 
 def get_address_from_output_script(bytes):
     try:
@@ -349,7 +404,7 @@ def get_address_from_output_script(bytes):
     if match_decoded(decoded, match):
         return None
 
-    # Pay-by-Bitcoin-address TxOuts look like:
+    # Pay-by-Stratis-address TxOuts look like:
     # DUP HASH160 20 BYTES:... EQUALVERIFY CHECKSIG
     match = [opcodes.OP_DUP, opcodes.OP_HASH160, opcodes.OP_PUSHDATA4, opcodes.OP_EQUALVERIFY, opcodes.OP_CHECKSIG]
     if match_decoded(decoded, match):

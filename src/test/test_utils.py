@@ -10,16 +10,14 @@ class UtilTest(unittest.TestCase):
         self.assertEqual(hash_160_to_address(None), None)
         self.assertEqual(hash_160_to_address('04e9fca1'.decode('hex')), None)
         self.assertEqual(hash_160_to_address('04e9fca1f96e021dfaf35bbea267ec2c60787c1b1337'.decode('hex')), None)
-        self.assertEqual(hash_160_to_address('1ad3b0b711f211655a01142fbb8fecabe8e30b93'.decode('hex')),
-                         '13SrAVFPVW1txSj34B8Bd6hnDbyPsVGa92')
+        self.assertEqual(hash_160_to_address('ce2a79d5c9d8ba7096d218fb82aa16f01e6dff48'.decode('hex')),'Sg677dvc44YEV8u5nTo1STR7P51ikfBDzm')
 
 
     def test_bc_address_to_hash_160(self):
         self.assertEqual(bc_address_to_hash_160(None), None)
         self.assertEqual(bc_address_to_hash_160(''), None)
-        self.assertEqual(bc_address_to_hash_160('13SrAVFPVW1txSj34B8Bd6hnDbyPsVGa921337'), None)
-        self.assertEqual(bc_address_to_hash_160('13SrAVFPVW1txSj34B8Bd6hnDbyPsVGa92').encode('hex'),
-                                                '1ad3b0b711f211655a01142fbb8fecabe8e30b93')
+        self.assertEqual(bc_address_to_hash_160('Sg677dvc44YEV8u5nTo1STR7P51ikfBDzm1337'), None)
+        self.assertEqual(bc_address_to_hash_160('Sg677dvc44YEV8u5nTo1STR7P51ikfBDzm').encode('hex'),'ce2a79d5c9d8ba7096d218fb82aa16f01e6dff48')
 
 
 
