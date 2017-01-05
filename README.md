@@ -1,4 +1,4 @@
-Electrum-stratis-server for the Electrum client
+Electrum-stratis-server for the Electrum-Stratis client
 =========================================
 
   * Original Author: Thomas Voegtlin (ThomasV on the bitcointalk forum)

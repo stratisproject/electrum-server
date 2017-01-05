@@ -32,7 +32,7 @@ Lines that lack hash or dollar signs are pastes from config files. They
 should be copied verbatim or adapted without the indentation tab.
 
 `apt-get install` commands are suggestions for required dependencies.
-They conform to an Ubuntu 15.10 system but may well work with Debian
+They conform to an Ubuntu 16.04 system but may well work with Debian
 or other versions of Ubuntu.
 
 Prerequisites
@@ -53,9 +53,9 @@ build chain. You will need root access in order to install other software or
 Python libraries. Python 2.7 is the minimum supported version.
 
 **Hardware.** The lightest setup is a pruning server with diskspace
-requirements of about 5 GB for the Electrum database (February 2016). However note that
+requirements of about 100MB for the Electrum database (January 2017). However note that
 you also need to run stratisd and keep a copy of the full blockchain,
-which is roughly 6 GB (February 2016). Ideally you have a machine with 4 GB of RAM
+which is roughly 100 MB (January 2017). Ideally you have a machine with 4 GB of RAM
 and an equal amount of swap. If you have ~2 GB of RAM make sure you limit stratisd 
 to 8 concurrent connections by disabling incoming connections. electrum-stratis-server may
 bail-out on you from time to time with less than 2 GB of RAM, so you might have to 
@@ -200,16 +200,11 @@ The section in the electrum server configuration file (see step 10) looks like t
 ### Step 7. Import blockchain into the database or download it
 
 It's recommended that you fetch a pre-processed leveldb from the net.
-The "configure" script above will offer you to download a database with pruning limit 100.
-
-You can fetch recent copies of electrum leveldb databases with different pruning limits
-and further instructions from the Electrum-stratis full archival server foundry at:
-http://stratisplatform.com/electrum
-
+The "configure" script above will offer you to download a database with pruning limit 10000.
 
 Alternatively, if you have the time and nerve, you can import the blockchain yourself.
 
-As of April 2014 it takes between one and two days to import 500k blocks, depending
+As of January 2017 it takes about 3 hours to import the complete blockchain, depending
 on CPU speed, I/O speed, and your selected pruning limit.
 
 It's considerably faster and strongly recommended to index in memory. You can use /dev/shm or
@@ -222,10 +217,10 @@ RAM but add 15 GB of swap from a file that's fine too; tmpfs is smart enough to 
 used parts. It's fine to use a file on an SSD for swap in this case.
 
 It's not recommended to do initial indexing of the database on a SSD because the indexing process
-does at least 10 TB (!) of disk writes and puts considerable wear-and-tear on an SSD. It's a lot better
+does at least 100 GB (!) of disk writes and puts considerable wear-and-tear on an SSD. It's a lot better
 to use tmpfs and just swap out to disk when necessary.   
 
-Databases have grown to roughly 5 GB as of February 2016. Leveldb prunes the database from time to time,
+Databases have grown to roughly 100MB as of January 2017. Leveldb prunes the database from time to time,
 so it's not uncommon to see databases ~50% larger at times when it's writing a lot, especially when
 indexing from the beginning.
 
