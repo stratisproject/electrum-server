@@ -102,7 +102,7 @@ If you prefer to compile stratisd, here are some pointers for Ubuntu:
     $ sudo apt-get update
     $ sudo apt-get install -y libdb4.8-dev libdb4.8++-dev
     $ sudo su - stratis
-    $ cd ~/src && git clone https://github.com/stratisproject/stratis.git
+    $ cd ~/src && git clone https://github.com/stratisproject/stratisx.git
     $ cd stratis/src
     $ make -f makefile.unix
     $ cp -a src/stratisd ~/bin
