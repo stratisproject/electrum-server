@@ -15,8 +15,8 @@ banner_file = /etc/electrum-stratis.banner
 #irc = no
 #irc_nick = <yournickname>
 #irc_bind_ip = <external ip address>
-#ssl_certfile = /path/to/electrum-server.crt
-#ssl_keyfile = /path/to/electrum-server.key
+#ssl_certfile = /path/to/electrum-stratis-server.crt
+#ssl_keyfile = /path/to/electrum-stratis-server.key
 logfile = /var/log/electrum-stratis-server.log
 donation_address = SR7NscNBuJBs4AuKVVkH599Zkt53qmPg9L
 
