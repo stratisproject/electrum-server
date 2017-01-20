@@ -79,7 +79,7 @@ We will also use the `~/bin` directory to keep locally installed files
 (others might want to use `/usr/local/bin` instead). We will download source
 code files to the `~/src` directory.
 
-    $ sudo adduser stratis --disabled-password
+    $ sudo adduser --system --group --create-home --disabled-password stratis
     $ sudo apt-get install git
     $ sudo su - stratis
     $ mkdir ~/bin ~/src
