@@ -239,7 +239,7 @@ They are not currently checked by the client except for the validity date.
 When asked for a challenge password just leave it empty and press enter.
     
     $ cd ~/stratis/electrum-stratis-server                                  
-    $ openssl genrsa -aes256 -passout pass:stratis -out server.key 4096   //generate rsa key with ae256 4096-bit encryption
+    $ openssl genrsa -aes256 -passout pass:stratis -out server.key 4096   //generate rsa key
     $ openssl rsa -passin pass:stratis -in server.key -out server.key     //strip key of password
     writing RSA key
     $ openssl req -new -key server.key -out server.csr                    //generate CSR
