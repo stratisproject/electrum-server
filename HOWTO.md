@@ -237,21 +237,21 @@ Use the sample code below to create a self-signed cert with a recommended validi
 of 5 years. You may supply any information for your sign request to identify your server.
 They are not currently checked by the client except for the validity date.
 When asked for a challenge password just leave it empty and press enter.
-
-    $ openssl genrsa -des3 -passout pass:x -out server.pass.key 2048
-    $ openssl rsa -passin pass:x -in server.pass.key -out server.key
+    
+    $ cd ~/stratis/electrum-stratis-server                                  
+    $ openssl genrsa -aes256 -passout pass:stratis -out server.key 4096   //generate rsa key
+    $ openssl rsa -passin pass:stratis -in server.key -out server.key     //strip key of password
     writing RSA key
-    $ rm server.pass.key
-    $ openssl req -new -key server.key -out server.csr
+    $ openssl req -new -key server.key -out server.csr                    //generate CSR
     ...
     Country Name (2 letter code) [AU]:US
     State or Province Name (full name) [Some-State]:California
     Common Name (eg, YOUR name) []: electrum-server.tld
     ...
-    A challenge password []:
+    A challenge password []:                                             // Leave Password blank !
     ...
 
-    $ openssl x509 -req -days 1825 -in server.csr -signkey server.key -out server.crt
+    $ openssl x509 -req -days 1825 -in server.csr -signkey electrum-stratis-server.key -out electrum-stratis-server.crt
 
 The server.crt file is your certificate suitable for the `ssl_certfile=` parameter and
 server.key corresponds to `ssl_keyfile=` in your Electrum server config.
