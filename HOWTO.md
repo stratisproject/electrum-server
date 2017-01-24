@@ -248,7 +248,7 @@ When asked for a challenge password just leave it empty and press enter.
     State or Province Name (full name) [Some-State]:California
     Common Name (eg, YOUR name) []: electrum-server.tld
     ...
-    A challenge password []:
+    A challenge password []:                                             // Leave Password blank !
     ...
 
     $ openssl x509 -req -days 1825 -in server.csr -signkey electrum-stratis-server.key -out electrum-stratis-server.crt
