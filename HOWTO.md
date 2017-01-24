@@ -238,12 +238,11 @@ of 5 years. You may supply any information for your sign request to identify you
 They are not currently checked by the client except for the validity date.
 When asked for a challenge password just leave it empty and press enter.
     
-    $ cd ~/stratis/electrum-stratis-server
-    $ openssl genrsa -des3 -passout pass:x -out server.pass.key 4096
-    $ openssl rsa -passin pass:x -in server.pass.key -out server.key
+    $ cd ~/stratis/electrum-stratis-server                                  
+    $ openssl genrsa -aes256 -passout pass:stratis -out server.key 4096   //generate rsa key with ae256 4096-bit encryption
+    $ openssl rsa -passin pass:stratis -in server.key -out server.key     //strip key of password
     writing RSA key
-    $ rm server.pass.key
-    $ openssl req -new -key server.key -out server.csr
+    $ openssl req -new -key server.key -out server.csr                    //generate CSR
     ...
     Country Name (2 letter code) [AU]:US
     State or Province Name (full name) [Some-State]:California
